@@ -83,6 +83,10 @@ const resetGame = (socket) => {
   };
 };
 
+//
+// END SOCKETS STUFF
+//
+
 // listen
 http.listen(PORT, () => {
   console.log("server listening on port", PORT);
