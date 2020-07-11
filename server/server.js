@@ -17,7 +17,7 @@ class Game {
    * A game of Frankenman
    */
   constructor() {
-    this.running = false; // toggled true when both players are ready
+    this.running = false; // toggled true when both game.playerCount are ready
     this.gameWinner = false; // toggled true when player reaches desired wins, this triggers a game restart
     this.completedRoundCount = 0; // incremented after a round has been won
     this.playerOneVictoryCount = 0;
@@ -26,6 +26,7 @@ class Game {
     this.readyPlayerTwo = false;
     this.playerOneName = "";
     this.playerTwoName = "";
+    this.playerCount = 0;
     this.pastRounds = []; // completed rounds get pushed here
 
     /**
@@ -56,7 +57,7 @@ class Game {
    * Restart the game instance
    */
   resetGameClass() {
-    this.running = false; // toggled true when both players are ready
+    this.running = false; // toggled true when both game.playerCount are ready
     this.gameWinner = false; // toggled true when player reaches desired wins, this triggers a game restart
     this.completedRoundCount = 0; // incremented after a round has been won
     this.playerOneVictoryCount = 0;
@@ -65,6 +66,7 @@ class Game {
     this.readyPlayerTwo = false;
     this.playerOneName = "";
     this.playerTwoName = "";
+    this.playerCount = 0;
     this.pastRounds = []; // completed rounds get pushed here
 
     /**
@@ -120,7 +122,6 @@ class Game {
 
 // variables
 let interval;
-let players = 0;
 let connections = 0;
 
 // game instance
@@ -158,15 +159,32 @@ io.on("connection", (socket) => {
   });
 
   // join a game
-  // rejected if too many players
-  socket.on("join game", () => {
-    console.log("join game hit");
+  // rejected if too many game.playerCount
+  socket.on("join game", (playerName) => {
+    console.log("join game hit", playerName);
 
     // check the current player count
-    if (players >= 2) {
+    if (game.playerCount >= 2) {
       socket.emit("too many players");
       return;
     }
+
+    // increment the game.playerCount
+    game.playerCount++;
+    console.log(game.playerCount, "players");
+    switch (game.playerCount) {
+      case 1:
+        game.playerOneName = playerName; // add player 1
+        break;
+
+      case 2:
+        game.playerTwoName = playerName; // add player 2
+        break;
+
+      default:
+        break; // don't do anything
+    }
+    socket.emit("you joined the game"); // tell the player they joined
   });
 
   //***************

@@ -8,7 +8,7 @@ function JoinGameField(props) {
   };
 
   const handleJoin = (event) => {
-    props.socket.emit("join game");
+    props.socket.emit("join game", name);
   };
   return (
     <div>
