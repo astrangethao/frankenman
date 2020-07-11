@@ -170,6 +170,7 @@ io.on("connection", (socket) => {
       socket.emit("too many players");
       return;
     } else if (currentPlayer !== 0) {
+      // check if player already joined
       socket.emit("already joined");
       return;
     }
