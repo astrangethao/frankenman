@@ -9,6 +9,7 @@ function JoinGameField(props) {
 
   const handleJoin = (event) => {
     props.socket.emit("join game", name);
+    setName(""); // reset the name
   };
   return (
     <div>
