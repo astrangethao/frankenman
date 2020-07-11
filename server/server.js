@@ -24,8 +24,8 @@ class Game {
     this.playerTwoVictoryCount = 0;
     this.readyPlayerOne = false;
     this.readyPlayerTwo = false;
-    this.playerOne = "";
-    this.playerTwo = "";
+    this.playerOneName = "";
+    this.playerTwoName = "";
     this.pastRounds = []; // completed rounds get pushed here
 
     /**
@@ -40,10 +40,12 @@ class Game {
       playerOneGuesses: {
         hits: [],
         misses: [],
+        all: [],
       },
       playerTwoGuesses: {
         hits: [],
         misses: [],
+        all: [],
       },
       playerOneCompletionPercent: 0,
       playerTwoCompletionPercent: 0,
