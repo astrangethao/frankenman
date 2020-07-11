@@ -23,13 +23,15 @@ function App() {
 
   const gameStateString = JSON.stringify(gameState);
 
+  const testWord = "string";
+
   return (
     <div className="App">
       <h1>Game State:</h1>
       <p>{gameStateString}</p>
       <button onClick={handleClick}>Click</button>
       <button onClick={handleReset}>Reset Game</button>
-      <WordDisplay />
+      <WordDisplay word={testWord} />
     </div>
   );
 }
