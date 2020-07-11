@@ -1,0 +1,8 @@
+.square {
+  margin: 5px;
+  border-radius: 25px;
+  border: 2px solid navy;
+  background: #fff;
+  width: 5vw;
+  height: 5vw;
+}
