@@ -8,6 +8,8 @@ app.use(express.static("build")); // serve the react frontend
 
 const PORT = process.env.PORT || 5000; // port is 5000, or whatever the env var is
 
+const randomWord = require("random-word-by-length"); // setup random word generator
+
 //
 //#region Game
 //***************
