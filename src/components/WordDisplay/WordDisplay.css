@@ -1,0 +1,7 @@
+.word-display-container {
+  margin: auto;
+  width: 50vw;
+  height: 25vw;
+  border-radius: 25px;
+  border: 2px solid navy;
+}
