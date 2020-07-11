@@ -9,8 +9,8 @@ app.use(express.static("build")); // serve the react frontend
 const PORT = process.env.PORT || 5000; // port is 5000, or whatever the env var is
 
 //
-// SOCKETS
-//
+//#region Sockets
+//***************
 
 // socket connections
 let clientCount = 0;
@@ -35,6 +35,10 @@ io.on("connection", (socket) => {
   interval = setInterval(() => emitGame(socket), 15);
   emitGame(socket);
 
+  //
+  //#region Listeners
+  //***************
+
   // on disconnection
   socket.on("disconnect", () => {
     clientCount = io.engine.clientsCount;
@@ -52,9 +56,15 @@ io.on("connection", (socket) => {
     console.log("reset hit");
     resetGame();
   });
+
+  //***************
+  //#endregion Listeners
+  //
 });
 
-// socket emits
+//
+//#region Socket Emits
+//***************
 
 /**
  * Update all clients.
@@ -83,8 +93,12 @@ const resetGame = (socket) => {
   };
 };
 
+//***************
+//#endregion Socket Emits
 //
-// END SOCKETS STUFF
+
+//***************
+//#endregion Sockets
 //
 
 // listen
