@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
-import socketIOClient from "socket.io-client";
-const socket = socketIOClient("http://localhost:5000");
+import io from "socket.io-client";
+import JoinGameField from "../JoinGameField/JoinGameField.js";
+
+const socket = io("http://localhost:3000/");
 
 function App() {
   const [gameState, setGameState] = useState({});
@@ -27,6 +29,7 @@ function App() {
       <p>{gameStateString}</p>
       <button onClick={handleClick}>Click</button>
       <button onClick={handleReset}>Reset Game</button>
+      <JoinGameField socket={socket} />
     </div>
   );
 }

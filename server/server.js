@@ -118,11 +118,10 @@ class Game {
 //#region Sockets
 //***************
 
-// socket connections
-let clientCount = 0;
-
-// interval
+// variables
 let interval;
+let players = 0;
+let connections = 0;
 
 // game instance
 let game = new Game();
@@ -130,8 +129,9 @@ let game = new Game();
 // client connection
 io.on("connection", (socket) => {
   //   console.log(game);
-  clientCount = io.engine.clientsCount; // update count
-  console.log("user connected. Count:", clientCount);
+  connections = socket.client.conn.server.clientsCount;
+  console.log("a client has connected. count:", connections);
+
   // interval handles updates
   interval = setInterval(() => emitGame(socket, game), 15);
 
@@ -139,10 +139,10 @@ io.on("connection", (socket) => {
   //#region Listeners
   //***************
 
-  // on disconnection
-  socket.on("disconnect", () => {
-    clientCount = io.engine.clientsCount;
-    console.log("user disconnected. Count:", clientCount);
+  // on 'disconnect'
+  socket.on("disconnect", (socket) => {
+    connections = io.engine.clientsCount;
+    console.log("a client has disconnected. count:", connections);
   });
 
   // on 'test emit'
@@ -155,6 +155,18 @@ io.on("connection", (socket) => {
   socket.on("reset game", () => {
     console.log("reset hit");
     resetGame(socket, game);
+  });
+
+  // join a game
+  // rejected if too many players
+  socket.on("join game", () => {
+    console.log("join game hit");
+
+    // check the current player count
+    if (players >= 2) {
+      socket.emit("too many players");
+      return;
+    }
   });
 
   //***************
@@ -189,7 +201,6 @@ const testModifyGame = (socket, game) => {
  */
 const resetGame = (socket, game) => {
   game.resetGameClass();
-  console.log(game);
 };
 
 //***************
