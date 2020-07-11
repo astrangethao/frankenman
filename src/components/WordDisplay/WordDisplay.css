@@ -4,4 +4,7 @@
   height: 25vw;
   border-radius: 25px;
   border: 2px solid navy;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

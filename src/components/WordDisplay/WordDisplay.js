@@ -8,7 +8,11 @@ function WordDisplay(props) {
 
   return (
     <div className="word-display-container">
-      <Box />
+      <div className="box-container">
+        {letter.map((char) => (
+          <Box />
+        ))}
+      </div>
     </div>
   );
 }
