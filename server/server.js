@@ -53,6 +53,45 @@ class Game {
   }
 
   /**
+   * Restart the game instance
+   */
+  resetGameClass() {
+    this.running = false; // toggled true when both players are ready
+    this.gameWinner = false; // toggled true when player reaches desired wins, this triggers a game restart
+    this.completedRoundCount = 0; // incremented after a round has been won
+    this.playerOneVictoryCount = 0;
+    this.playerTwoVictoryCount = 0;
+    this.readyPlayerOne = false;
+    this.readyPlayerTwo = false;
+    this.playerOneName = "";
+    this.playerTwoName = "";
+    this.pastRounds = []; // completed rounds get pushed here
+
+    /**
+     * A round of Frankenman.
+     */
+    this.round = {
+      roundWinner: false, // true when a player has won
+      winningPlayer: "", // player username
+      roundNum: 1,
+      word: "",
+      wordCharArr: [],
+      playerOneGuesses: {
+        hits: [],
+        misses: [],
+        all: [],
+      },
+      playerTwoGuesses: {
+        hits: [],
+        misses: [],
+        all: [],
+      },
+      playerOneCompletionPercent: 0,
+      playerTwoCompletionPercent: 0,
+    };
+  }
+
+  /**
    * Toggle a ready status of a player.
    * @param {number} playerNum Which player should be toggled? 1 or 2
    */
@@ -90,7 +129,7 @@ let game = new Game();
 
 // client connection
 io.on("connection", (socket) => {
-  console.log(game);
+  //   console.log(game);
   clientCount = io.engine.clientsCount; // update count
   console.log("user connected. Count:", clientCount);
   // interval handles updates
@@ -149,7 +188,8 @@ const testModifyGame = (socket, game) => {
  * This restarts the game to the beginning.
  */
 const resetGame = (socket, game) => {
-  game = new Game();
+  game.resetGameClass();
+  console.log(game);
 };
 
 //***************
