@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import socketIOClient from "socket.io-client";
+import WordDisplay from "../WordDisplay/WordDisplay";
 import AlphaButtons from "../AlphaButton/AlphaButtons";
+
 const socket = socketIOClient("http://localhost:5000");
 
 function App() {
@@ -22,13 +24,17 @@ function App() {
 
   const gameStateString = JSON.stringify(gameState);
 
+  const testWord = "string";
+
   return (
     <div className="App">
       <h1>Game State:</h1>
       <p>{gameStateString}</p>
       <button onClick={handleClick}>Click</button>
       <button onClick={handleReset}>Reset Game</button>
+      <WordDisplay word={testWord} />
       <AlphaButtons />
+
     </div>
   );
 }
