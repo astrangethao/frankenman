@@ -20,9 +20,11 @@ let interval;
 
 // game state
 let game = {
+  // TEST OBJECT
   word: "test",
   playerNum: 2,
   roundNum: 3,
+  // END TEST OBJECT
 };
 
 // client connection
