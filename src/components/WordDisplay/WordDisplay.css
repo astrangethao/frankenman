@@ -1,10 +1,14 @@
 .word-display-container {
-  margin: auto;
-  width: 50vw;
-  height: 25vw;
+  margin: 20px;
+  padding: 0;
   border-radius: 25px;
   border: 2px solid navy;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.box-container {
+  margin: auto;
+  padding: 10px 20px;
 }

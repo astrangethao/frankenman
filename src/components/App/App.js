@@ -23,7 +23,7 @@ function App() {
 
   const gameStateString = JSON.stringify(gameState);
 
-  const testWord = "me";
+  const testWord = "string";
 
   return (
     <div className="App">
