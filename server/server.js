@@ -133,8 +133,10 @@ io.on("connection", (socket) => {
   connections = socket.client.conn.server.clientsCount;
   console.log("a client has connected. count:", connections);
 
+  let currentPlayer = 0; // this will be updated if the client joins the game (1 or 2)
+
   // interval handles updates
-  interval = setInterval(() => emitGame(socket, game), 15);
+  interval = setInterval(() => emitGame(socket, game, currentPlayer), 15);
 
   //
   //#region Listeners
@@ -167,6 +169,9 @@ io.on("connection", (socket) => {
     if (game.playerCount >= 2) {
       socket.emit("too many players");
       return;
+    } else if (currentPlayer !== 0) {
+      socket.emit("already joined");
+      return;
     }
 
     // increment the game.playerCount
@@ -174,10 +179,12 @@ io.on("connection", (socket) => {
     console.log(game.playerCount, "players");
     switch (game.playerCount) {
       case 1:
+        currentPlayer = 1;
         game.playerOneName = playerName; // add player 1
         break;
 
       case 2:
+        currentPlayer = 2;
         game.playerTwoName = playerName; // add player 2
         break;
 
@@ -199,9 +206,10 @@ io.on("connection", (socket) => {
 /**
  * Update all clients.
  * @param {Game} game An instance of Frankenman
+ * @param {int} currentPlayer What player number is the client? 0(not playing) 1 or 2?
  */
-const emitGame = (socket, game) => {
-  const response = game;
+const emitGame = (socket, game, currentPlayer) => {
+  const response = { game, currentPlayer };
   io.emit("FromAPI", response);
 };
 
