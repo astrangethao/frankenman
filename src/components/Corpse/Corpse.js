@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import "./Corpse.css";
 
 class Corpse extends Component {
+  state = {
+    showLimb: false,
+  };
   render() {
     if (!this.props.limbs) {
       return <div></div>;
@@ -32,43 +35,67 @@ class Corpse extends Component {
         <div id="high-c">
           <div
             id="head"
-            style={{
-              backgroundImage: "url(" + randoHead + ")",
-            }}
+            style={
+              this.state.showLimb
+                ? {
+                    backgroundImage: "url(" + randoHead + ")",
+                  }
+                : null
+            }
           ></div>
         </div>
         <div id="mid-c">
           <div
             id="right-arm"
-            style={{
-              backgroundImage: "url(" + randoRightArm + ")",
-            }}
+            style={
+              this.state.showLimb
+                ? {
+                    backgroundImage: "url(" + randoRightArm + ")",
+                  }
+                : null
+            }
           ></div>
           <div
             id="torso"
-            style={{
-              backgroundImage: "url(" + randoTorso + ")",
-            }}
+            style={
+              this.state.showLimb
+                ? {
+                    backgroundImage: "url(" + randoTorso + ")",
+                  }
+                : null
+            }
           ></div>
           <div
             id="left-arm"
-            style={{
-              backgroundImage: "url(" + randoLeftArm + ")",
-            }}
+            style={
+              this.state.showLimb
+                ? {
+                    backgroundImage: "url(" + randoLeftArm + ")",
+                  }
+                : null
+            }
           ></div>
         </div>
         <div id="low-c">
           <div
             id="right-leg"
-            style={{
-              backgroundImage: "url(" + randoRightLeg + ")",
-            }}
+            style={
+              this.state.showLimb
+                ? {
+                    backgroundImage: "url(" + randoRightLeg + ")",
+                  }
+                : null
+            }
           ></div>
           <div
             id="left-leg"
-            style={{
-              backgroundImage: "url(" + randoLeftLeg + ")",
-            }}
+            style={
+              this.state.showLimb
+                ? {
+                    backgroundImage: "url(" + randoLeftLeg + ")",
+                  }
+                : null
+            }
           ></div>
         </div>
       </div>

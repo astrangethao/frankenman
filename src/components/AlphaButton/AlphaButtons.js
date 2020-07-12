@@ -32,25 +32,23 @@ const alphabet = [
 
 class AlphaButtons extends Component {
   state = {
-    disabledButton: new Array(alphabet.length).fill(false),
+    disabledButton: new Array(alphabet.length).fill(false), //set array to fill false for each letter
   };
 
   render() {
-    console.log(this.state.disabledButton);
-
     const handleClick = (letter, index) => () => {
       this.setState(
         (oldState) => {
-          const newDisabledButtons = [...oldState.disabledButton];
-          newDisabledButtons[index] = true;
+          const newDisabledButtons = [...oldState.disabledButton]; //set old state
+          newDisabledButtons[index] = true; //set state at clicked button to true
           return {
-            disabledButton: newDisabledButtons,
+            disabledButton: newDisabledButtons, //set state of clicked button index to true
           };
         },
         () => {
           console.log("emit", letter);
 
-          this.props.socket.emit("alpha button", letter);
+          this.props.socket.emit("alpha button", letter); //dispatch clicked button value to server
         }
       );
     };
