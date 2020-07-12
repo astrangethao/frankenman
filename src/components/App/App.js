@@ -12,11 +12,23 @@ const socket = io(
 function App() {
   const [gameState, setGameState] = useState({});
   const [wordCharArrayState, setWordCharArrayState] = useState([]); // getting wordCharArray for the round
+  const [hitState, setHitState] = useState([]); // getting hit status
 
   useEffect(() => {
     socket.on("FromAPI", (data) => {
       setGameState(data);
-      setWordCharArrayState(data.round.wordCharArr);
+      setWordCharArrayState(gameState.round.wordCharArr);
+      setHitState(gameState.round.playerOneGuesses.hits);
+      // switch (socket.id) {
+      //   case data.playerOne.socketID:
+      //     setHitState(data.round.playerOneGuesses.hits);
+      //     break;
+      //   case data.playerTwo.socketID:
+      //     setHitState(data.round.playerTwoGuesses.hits);
+      //     break;
+      //   default:
+      //     break;
+      // }
     });
   }, []);
 
@@ -34,8 +46,6 @@ function App() {
 
   const gameStateString = JSON.stringify(gameState);
 
-  const wordCharArray = wordCharArrayState; //storing word for the round
-
   return (
     <div className="App">
       <h1>Game State:</h1>
@@ -45,9 +55,8 @@ function App() {
       <button onClick={handleReset}>Reset Game</button>
       <JoinGameField socket={socket} />
       <Corpse />
-      <WordDisplay wordCharArray={wordCharArray} />
+      <WordDisplay hitsArray={hitState} wordCharArray={wordCharArrayState} />
       <AlphaButtons socket={socket} />
-
     </div>
   );
 }
