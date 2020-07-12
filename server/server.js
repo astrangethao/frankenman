@@ -164,7 +164,6 @@ const game = onChange(unwatchedGame, () => {
 
 // client connection
 io.on("connection", (socket) => {
-  //   console.log(game);
   connections = socket.client.conn.server.clientsCount;
   console.log("a client has connected. count:", connections);
   emitGame(null, game); // someone joined, refresh clients
@@ -244,6 +243,7 @@ io.on("connection", (socket) => {
         break; // don't do anything
     }
     socket.emit("you joined the game"); // tell the player they joined
+    emitGame(null, game);
   });
 
   // on 'ready player'
@@ -357,7 +357,6 @@ const assignWord = (socket, game) => {
     case 3:
       game.round.word = randomWord(9); // max length 9
       game.round.wordCharArr = game.round.word.split(""); // store char of the word in array
-
       break;
     default:
       break;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import io from "socket.io-client";
 import JoinGameField from "../JoinGameField/JoinGameField.js";
 import WordDisplay from "../WordDisplay/WordDisplay";
@@ -16,34 +16,28 @@ function App() {
   const [playerNum, setPlayerNum] = useState(0); // 0 = no, 1 = player1, 2 = player2
   const [wordCharArrayState, setWordCharArrayState] = useState([]); // getting wordCharArray for the round
 
-  useEffect(() => {
-    socket.on("FromAPI", (data) => {
-      setGameState(data);
+  socket.on("FromAPI", (data) => {
+    setGameState(data);
 
-      if (!gameState) return;
+    if (!gameState) return;
 
-      if (gameState.playerCount === 2) {
-        switch (socket.id) {
-          case gameState.playerOne.socketID:
-            setPlayerNum(1);
-            setDisplayReadyBtn(true);
-            break;
-          case gameState.playerTwo.socketID:
-            setPlayerNum(2);
-            setDisplayReadyBtn(true);
-            break;
-          default:
-            break;
-        }
-      } else {
-        setDisplayReadyBtn(false);
+    if (gameState.playerCount === 2) {
+      switch (socket.id) {
+        case gameState.playerOne.socketID:
+          setPlayerNum(1);
+          setDisplayReadyBtn(true);
+          break;
+        case gameState.playerTwo.socketID:
+          setPlayerNum(2);
+          setDisplayReadyBtn(true);
+          break;
+        default:
+          break;
       }
-      setWordCharArrayState(data.round.wordCharArr);
-    });
-  });
-
-  socket.on("you joined the game", () => {
-    socket.emit("refresh clients");
+    } else {
+      setDisplayReadyBtn(false);
+    }
+    setWordCharArrayState(data.round.wordCharArr);
   });
 
   const handleClick = () => {
