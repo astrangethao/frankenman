@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
-import socketIOClient from "socket.io-client";
+import io from "socket.io-client";
+import JoinGameField from "../JoinGameField/JoinGameField.js";
 import WordDisplay from "../WordDisplay/WordDisplay";
 import AlphaButtons from "../AlphaButton/AlphaButtons";
 import Corpse from "../Corpse/Corpse";
 
-const socket = socketIOClient("http://localhost:5000");
+const socket = io(
+  process.env.REACT_APP_SOCKET_SERVER || "http://localhost:5000/"
+);
 
 function App() {
   const [gameState, setGameState] = useState({});
@@ -40,6 +43,7 @@ function App() {
       <button onClick={handleClick}>Click</button>
       <button onClick={handleStart}>Start</button>
       <button onClick={handleReset}>Reset Game</button>
+      <JoinGameField socket={socket} />
 
       <Corpse />
       <WordDisplay word={word} />
