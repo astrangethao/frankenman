@@ -67,7 +67,11 @@ function App() {
       <button onClick={handleReset}>Reset Game</button>
       <JoinGameField socket={socket} />
       {displayReadyBtn && <ReadyButton socket={socket} playerNum={playerNum} />}
-      <Corpse limbs={gameState.limbs} />
+      <Corpse
+        limbs={gameState.limbs}
+        word={gameState.word}
+        hits={gameState.hits}
+      />
       <WordDisplay wordCharArray={wordCharArray} />
       <AlphaButtons socket={socket} />
     </div>
