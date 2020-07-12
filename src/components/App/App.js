@@ -11,12 +11,12 @@ const socket = io(
 
 function App() {
   const [gameState, setGameState] = useState({});
-  const [wordState, setWordState] = useState(""); // getting word for the round
+  const [wordCharArrayState, setWordCharArrayState] = useState([]); // getting wordCharArray for the round
 
   useEffect(() => {
     socket.on("FromAPI", (data) => {
       setGameState(data);
-      setWordState(data.round.word);
+      setWordCharArrayState(data.round.wordCharArr);
     });
   }, []);
 
@@ -34,7 +34,7 @@ function App() {
 
   const gameStateString = JSON.stringify(gameState);
 
-  const word = wordState; //storing word for the round
+  const wordCharArray = wordCharArrayState; //storing word for the round
 
   return (
     <div className="App">
@@ -44,10 +44,10 @@ function App() {
       <button onClick={handleStart}>Start</button>
       <button onClick={handleReset}>Reset Game</button>
       <JoinGameField socket={socket} />
-
       <Corpse />
-      <WordDisplay word={word} />
+      <WordDisplay wordCharArray={wordCharArray} />
       <AlphaButtons socket={socket} />
+
     </div>
   );
 }

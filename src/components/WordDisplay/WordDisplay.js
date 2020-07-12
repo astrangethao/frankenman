@@ -3,12 +3,10 @@ import "./WordDisplay.css";
 import Box from "../WordDisplay/Box";
 
 function WordDisplay(props) {
-  const letter = props.word.split("");
-
   return (
     <div className="word-display-container">
       <div className="box-container">
-        {letter.map((char, index) => (
+        {props.wordCharArray.map((char, index) => (
           <Box key={index} />
         ))}
       </div>
