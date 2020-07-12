@@ -47,7 +47,7 @@ function App() {
 
       <Corpse />
       <WordDisplay word={word} />
-      <AlphaButtons />
+      <AlphaButtons socket={socket} />
     </div>
   );
 }

@@ -178,6 +178,22 @@ io.on("connection", (socket) => {
     resetGame(socket, game);
   });
 
+  // on 'alpha button'
+  socket.on("alpha button", (letter) => {
+    console.log("button clicked", letter);
+    switch (socket.id) {
+      case game.playerOne.socketID:
+        game.round.playerOneGuesses.all.push(letter);
+        break;
+      case game.playerTwo.socketID:
+        game.round.playerTwoGuesses.all.push(letter);
+        break;
+      default:
+        socket.emit("default player");
+        break; // don't do anything
+    }
+  });
+
   // join a game
   // rejected if too many game.playerCount
   socket.on("join game", (playerName) => {
