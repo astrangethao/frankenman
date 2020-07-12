@@ -12,3 +12,7 @@
   margin: auto;
   padding: 10px 20px;
 }
+
+.letter-display {
+  display: inline-block;
+}
