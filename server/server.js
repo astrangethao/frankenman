@@ -186,9 +186,11 @@ io.on("connection", (socket) => {
     switch (socket.id) {
       case game.playerOne.socketID:
         game.round.playerOneGuesses.all.push(letter);
+        hitOrMiss(socket, game, letter);
         break;
       case game.playerTwo.socketID:
         game.round.playerTwoGuesses.all.push(letter);
+        hitOrMiss(socket, game, letter);
         break;
       default:
         socket.emit("default player");
@@ -277,6 +279,35 @@ const resetGame = (socket, game) => {
 //
 
 //
+//#region Game Operator
+//***************
+
+/**
+ * check if the guessed char is hit or miss
+ * @param {*} socket
+ * @param {*} game
+ * @param {*} letter
+ */
+
+const hitOrMiss = (socket, game, letter) => {
+  if (socket.id === game.playerOne.socketID) {
+    let isHit = game.round.wordCharArr.indexOf(letter) !== -1;
+    if (isHit) {
+      game.round.playerOneGuesses.hits.push(letter);
+    } else {
+      game.round.playerOneGuesses.misses.push(letter);
+    }
+  } else if (socket.id === game.playerTwo.socketID) {
+    let isHit = game.round.wordCharArr.indexOf(letter) !== -1;
+    if (isHit) {
+      game.round.playerTwoGuesses.hits.push(letter);
+    } else {
+      game.round.playerTwoGuesses.misses.push(letter);
+    }
+  }
+};
+
+//
 //#region Word Generator
 //***************
 
@@ -287,13 +318,17 @@ const resetGame = (socket, game) => {
 const assignWord = (socket, game) => {
   switch (game.round.roundNum) {
     case 1:
-      game.round.word = randomWord(5);
+      game.round.word = randomWord(5); // max length 5
+      game.round.wordCharArr = game.round.word.split(""); // store char of the word in array
       break;
     case 2:
-      game.round.word = randomWord(7);
+      game.round.word = randomWord(7); // max length 7
+      game.round.wordCharArr = game.round.word.split(""); // store char of the word in array
       break;
     case 3:
-      game.round.word = randomWord(9);
+      game.round.word = randomWord(9); // max length 9
+      game.round.wordCharArr = game.round.word.split(""); // store char of the word in array
+
       break;
     default:
       break;
@@ -302,6 +337,10 @@ const assignWord = (socket, game) => {
 
 //***************
 //#endregion Word Generator
+//
+
+//***************
+//#endregion Game Operator
 //
 
 // listen
