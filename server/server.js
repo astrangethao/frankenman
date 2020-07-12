@@ -61,6 +61,22 @@ class Game {
       playerOneCompletionPercent: 0,
       playerTwoCompletionPercent: 0,
     };
+
+    this.limbs = {
+      head: [
+        "images/h1.png",
+        "images/h2.png",
+        "images/h3.png",
+        "images/h4.png",
+        "images/h5.png",
+        "images/h6.png",
+      ],
+      torso: ["images/t1.png", "images/t2.png", "images/t3.png"],
+      rightArm: ["images/ar1.png", "images/ar2.png", "images/ar3.png"],
+      leftArm: ["images/al1.png", "images/al2.png", "images/al3.png"],
+      rightLeg: ["images/lr1.png", "images/lr2.png", "images/lr3.png"],
+      leftLeg: ["images/ll1.png", "images/ll2.png", "images/ll3.png"],
+    };
   }
 
   /**
