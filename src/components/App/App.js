@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import socketIOClient from "socket.io-client";
 import WordDisplay from "../WordDisplay/WordDisplay";
 import AlphaButtons from "../AlphaButton/AlphaButtons";
+import Corpse from "../Corpse/Corpse";
 
 const socket = socketIOClient("http://localhost:5000");
 
@@ -32,9 +33,9 @@ function App() {
       <p>{gameStateString}</p>
       <button onClick={handleClick}>Click</button>
       <button onClick={handleReset}>Reset Game</button>
+      <Corpse />
       <WordDisplay word={testWord} />
       <AlphaButtons />
-
     </div>
   );
 }

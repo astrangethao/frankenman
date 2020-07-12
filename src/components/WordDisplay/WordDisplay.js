@@ -4,7 +4,6 @@ import Box from "../WordDisplay/Box";
 
 function WordDisplay(props) {
   const letter = props.word.split("");
-  console.log(letter);
 
   return (
     <div className="word-display-container">
