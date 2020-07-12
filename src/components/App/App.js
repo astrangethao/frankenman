@@ -42,10 +42,7 @@ function App() {
       <button onClick={handleReset}>Reset Game</button>
 
       <Corpse />
-     
-
       <WordDisplay word={word} />
-
       <AlphaButtons />
     </div>
   );

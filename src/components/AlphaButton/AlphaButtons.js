@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./AlphaButtons.css";
+
 const alphabet = [
   "a",
   "b",
