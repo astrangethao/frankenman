@@ -32,7 +32,7 @@ const alphabet = [
 
 class AlphaButtons extends Component {
   state = {
-    disabledButton: new Array(alphabet.length).fill(false), //set array to fill false for each letter
+    disabledButton: new Array(alphabet.length).fill(false), //set array to fill false for each index
   };
 
   render() {

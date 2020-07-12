@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import io from "socket.io-client";
 import JoinGameField from "../JoinGameField/JoinGameField.js";
 import WordDisplay from "../WordDisplay/WordDisplay";
@@ -17,48 +17,42 @@ function App() {
   const [wordCharArrayState, setWordCharArrayState] = useState([]); // getting wordCharArray for the round
   const [hitState, setHitState] = useState([]); // getting hit status
 
-  useEffect(() => {
-    socket.on("FromAPI", (data) => {
-      setGameState(data);
+  socket.on("FromAPI", (data) => {
+    setGameState(data);
 
-      if (!gameState) return;
+    if (!gameState) return;
 
-      if (gameState.playerCount === 2) {
-        switch (socket.id) {
-          case gameState.playerOne.socketID:
-            setPlayerNum(1);
-            setDisplayReadyBtn(true);
-            break;
-          case gameState.playerTwo.socketID:
-            setPlayerNum(2);
-            setDisplayReadyBtn(true);
-            break;
-          default:
-            break;
-        }
-      } else {
-        setDisplayReadyBtn(false);
+    if (gameState.playerCount === 2) {
+      switch (socket.id) {
+        case gameState.playerOne.socketID:
+          setPlayerNum(1);
+          setDisplayReadyBtn(true);
+          break;
+        case gameState.playerTwo.socketID:
+          setPlayerNum(2);
+          setDisplayReadyBtn(true);
+          break;
+        default:
+          break;
       }
+    } else {
+      setDisplayReadyBtn(false);
+    }
 
-      setWordCharArrayState(data.round.wordCharArr);
+    setWordCharArrayState(data.round.wordCharArr);
 
-      if (playerNum) {
-        switch (playerNum) {
-          case 1:
-            setHitState(gameState.round.playerOneGuesses.hits);
-            break;
-          case 2:
-            setHitState(gameState.round.playerTwoGuesses.hits);
-            break;
-          default:
-            break;
-        }
+    if (playerNum) {
+      switch (playerNum) {
+        case 1:
+          setHitState(gameState.round.playerOneGuesses.hits);
+          break;
+        case 2:
+          setHitState(gameState.round.playerTwoGuesses.hits);
+          break;
+        default:
+          break;
       }
-    });
-  });
-
-  socket.on("you joined the game", () => {
-    socket.emit("refresh clients");
+    }
   });
 
   const handleClick = () => {
@@ -82,9 +76,12 @@ function App() {
       <button onClick={handleReset}>Reset Game</button>
       <JoinGameField socket={socket} />
       {displayReadyBtn && <ReadyButton socket={socket} playerNum={playerNum} />}
-      <Corpse limbs={gameState.limbs} />
+      <Corpse
+        limbs={gameState.limbs}
+        word={gameState.word}
+        hits={gameState.hits}
+      />
       <WordDisplay hitsArray={hitState} wordCharArray={wordCharArrayState} />
-
       <AlphaButtons socket={socket} />
     </div>
   );

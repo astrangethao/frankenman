@@ -3,9 +3,15 @@ import "./Corpse.css";
 
 class Corpse extends Component {
   state = {
-    showLimb: false,
+    showLimb: true,
   };
   render() {
+    const displayPercentages = () => {
+      if (this.props.word) {
+        return this.props.word.length / 6;
+      }
+    };
+
     if (!this.props.limbs) {
       return <div></div>;
     }

@@ -18,7 +18,6 @@ function WordDisplay(props) {
           } else {
             return <Box key={index} />;
           }
-          // return <Box key={index} />;
         })}
       </div>
     </div>
