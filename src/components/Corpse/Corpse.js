@@ -10,12 +10,12 @@ class Corpse extends Component {
       return Math.floor(Math.random() * Math.floor(max));
     };
 
-    let headArr = this.props.limbs.head;
-    let torsoArr = this.props.limbs.torso;
-    let rightArmArr = this.props.limbs.rightArm;
-    let leftArmArr = this.props.limbs.leftArm;
-    let rightLegArr = this.props.limbs.rightLeg;
-    let leftLegArr = this.props.limbs.leftLeg;
+    const headArr = this.props.limbs.head;
+    const torsoArr = this.props.limbs.torso;
+    const rightArmArr = this.props.limbs.rightArm;
+    const leftArmArr = this.props.limbs.leftArm;
+    const rightLegArr = this.props.limbs.rightLeg;
+    const leftLegArr = this.props.limbs.leftLeg;
 
     const randoHead = headArr[random(6)];
     const randoTorso = torsoArr[random(3)];
@@ -24,7 +24,7 @@ class Corpse extends Component {
     const randoRightLeg = rightLegArr[random(3)];
     const randoLeftLeg = leftLegArr[random(3)];
 
-    // let divBackground = {
+    // const divBackground = {
     //   backgroundImage: url(`+ ${imgUrl} +`),
     // };
     return (
