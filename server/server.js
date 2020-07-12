@@ -24,8 +24,14 @@ class Game {
     this.playerTwoVictoryCount = 0;
     this.readyPlayerOne = false;
     this.readyPlayerTwo = false;
-    this.playerOneName = "";
-    this.playerTwoName = "";
+    this.playerOne = {
+      name: "",
+      socketID: null,
+    };
+    this.playerTwo = {
+      name: "",
+      socketID: null,
+    };
     this.playerCount = 0;
     this.pastRounds = []; // completed rounds get pushed here
 
@@ -64,8 +70,14 @@ class Game {
     this.playerTwoVictoryCount = 0;
     this.readyPlayerOne = false;
     this.readyPlayerTwo = false;
-    this.playerOneName = "";
-    this.playerTwoName = "";
+    this.playerOne = {
+      name: "",
+      socketID: 0,
+    };
+    this.playerTwo = {
+      name: "",
+      socketID: 0,
+    };
     this.playerCount = 0;
     this.pastRounds = []; // completed rounds get pushed here
 
@@ -133,10 +145,8 @@ io.on("connection", (socket) => {
   connections = socket.client.conn.server.clientsCount;
   console.log("a client has connected. count:", connections);
 
-  let currentPlayer = 0; // this will be updated if the client joins the game (1 or 2)
-
   // interval handles updates
-  interval = setInterval(() => emitGame(socket, game, currentPlayer), 15);
+  interval = setInterval(() => emitGame(socket, game), 15);
 
   //
   //#region Listeners
@@ -169,9 +179,11 @@ io.on("connection", (socket) => {
     if (game.playerCount >= 2) {
       socket.emit("too many players");
       return;
-    } else if (currentPlayer !== 0) {
-      // check if player already joined
-      socket.emit("already joined");
+    } else if (
+      game.playerOne.socketID === socket.id ||
+      game.playerOne.socketID === socket.id
+    ) {
+      socket.emit("you are already logged in");
       return;
     }
 
@@ -180,13 +192,13 @@ io.on("connection", (socket) => {
     console.log(game.playerCount, "players");
     switch (game.playerCount) {
       case 1:
-        currentPlayer = 1;
-        game.playerOneName = playerName; // add player 1
+        game.playerOne.name = playerName;
+        game.playerOne.socketID = socket.id;
         break;
 
       case 2:
-        currentPlayer = 2;
-        game.playerTwoName = playerName; // add player 2
+        game.playerTwo.name = playerName;
+        game.playerTwo.socketID = socket.id;
         break;
 
       default:
@@ -209,8 +221,8 @@ io.on("connection", (socket) => {
  * @param {Game} game An instance of Frankenman
  * @param {int} currentPlayer What player number is the client? 0(not playing) 1 or 2?
  */
-const emitGame = (socket, game, currentPlayer) => {
-  const response = { game, currentPlayer };
+const emitGame = (socket, game) => {
+  const response = game;
   io.emit("FromAPI", response);
 };
 
