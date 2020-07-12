@@ -151,9 +151,7 @@ io.on("connection", (socket) => {
   //   console.log(game);
   connections = socket.client.conn.server.clientsCount;
   console.log("a client has connected. count:", connections);
-
-  // interval handles updates
-  interval = setInterval(() => emitGame(socket, game), 100);
+  emitGame(null, game); // someone joined, refresh clients
 
   //
   //#region Listeners
@@ -169,12 +167,6 @@ io.on("connection", (socket) => {
   socket.on("test me", () => {
     console.log("test hit");
     testModifyGame(socket, game);
-  });
-
-  // on 'start game'
-  socket.on("start game", () => {
-    console.log("start game");
-    assignWord(socket, game); // get a random word for the round
   });
 
   // on 'reset game'
@@ -236,6 +228,24 @@ io.on("connection", (socket) => {
         break; // don't do anything
     }
     socket.emit("you joined the game"); // tell the player they joined
+  });
+
+  // on 'ready player'
+  socket.on("ready player", (playerNum) => {
+    console.log("ready player hit. playerNum:", playerNum);
+    game.readyPlayer(playerNum);
+
+    // start the game if both players are ready
+    if (game.readyPlayerOne && game.readyPlayerTwo) {
+      game.running = true;
+      console.log("start game");
+      assignWord(socket, game); // get a random word for the round
+    }
+  });
+
+  // refresh clients
+  socket.on("refresh clients", () => {
+    emitGame(null, game);
   });
 
   //***************
