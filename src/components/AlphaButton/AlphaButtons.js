@@ -31,16 +31,49 @@ const alphabet = [
 ];
 
 class AlphaButtons extends Component {
+  state = {
+    disabledButton: new Array(alphabet.length).fill(false),
+  };
+
   render() {
-    const handleClick = (letter) => () => {
-      this.props.socket.emit("alpha button", letter);
+    console.log(this.state.disabledButton);
+
+    const handleClick = (letter, index) => () => {
+      this.setState(
+        (oldState) => {
+          const newDisabledButtons = [...oldState.disabledButton];
+          newDisabledButtons[index] = true;
+          return {
+            disabledButton: newDisabledButtons,
+          };
+        },
+        () => {
+          console.log("emit", letter);
+
+          this.props.socket.emit("alpha button", letter);
+        }
+      );
     };
     return (
       <>
         <div className="btn-container">
           {alphabet.map((item, index) => {
             return (
-              <button className="btn" onClick={handleClick(item)} key={index}>
+              <button
+                className="btn"
+                onClick={handleClick(item, index)}
+                key={index}
+                disabled={this.state.disabledButton[index]}
+                style={
+                  this.state.disabledButton[index]
+                    ? {
+                        background: "white",
+                        border: "solid 2px black",
+                        color: "black",
+                      }
+                    : null
+                }
+              >
                 {item}
               </button>
             );

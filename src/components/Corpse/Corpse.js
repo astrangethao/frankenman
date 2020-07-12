@@ -32,43 +32,43 @@ class Corpse extends Component {
         <div id="high-c">
           <div
             id="head"
-            // style={{
-            //   backgroundImage: "url(" + randoHead + ")",
-            // }}
+            style={{
+              backgroundImage: "url(" + randoHead + ")",
+            }}
           ></div>
         </div>
         <div id="mid-c">
           <div
             id="right-arm"
-            // style={{
-            //   backgroundImage: "url(" + randoRightArm + ")",
-            // }}
+            style={{
+              backgroundImage: "url(" + randoRightArm + ")",
+            }}
           ></div>
           <div
             id="torso"
-            // style={{
-            //   backgroundImage: "url(" + randoTorso + ")",
-            // }}
+            style={{
+              backgroundImage: "url(" + randoTorso + ")",
+            }}
           ></div>
           <div
             id="left-arm"
-            // style={{
-            //   backgroundImage: "url(" + randoLeftArm + ")",
-            // }}
+            style={{
+              backgroundImage: "url(" + randoLeftArm + ")",
+            }}
           ></div>
         </div>
         <div id="low-c">
           <div
             id="right-leg"
-            // style={{
-            //   backgroundImage: "url(" + randoRightLeg + ")",
-            // }}
+            style={{
+              backgroundImage: "url(" + randoRightLeg + ")",
+            }}
           ></div>
           <div
-          // id="left-leg"
-          // style={{
-          //   backgroundImage: "url(" + randoLeftLeg + ")",
-          // }}
+            id="left-leg"
+            style={{
+              backgroundImage: "url(" + randoLeftLeg + ")",
+            }}
           ></div>
         </div>
       </div>
