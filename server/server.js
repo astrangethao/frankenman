@@ -287,13 +287,17 @@ const resetGame = (socket, game) => {
 const assignWord = (socket, game) => {
   switch (game.round.roundNum) {
     case 1:
-      game.round.word = randomWord(5);
+      game.round.word = randomWord(5); // max length 5
+      game.round.wordCharArr = game.round.word.split(""); // store char of the word in array
       break;
     case 2:
-      game.round.word = randomWord(7);
+      game.round.word = randomWord(7); // max length 7
+      game.round.wordCharArr = game.round.word.split(""); // store char of the word in array
       break;
     case 3:
-      game.round.word = randomWord(9);
+      game.round.word = randomWord(9); // max length 9
+      game.round.wordCharArr = game.round.word.split(""); // store char of the word in array
+
       break;
     default:
       break;
