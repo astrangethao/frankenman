@@ -3,6 +3,7 @@ require("dotenv").config(); // env vars
 const app = express();
 const http = require("http").createServer(app); // create http server using express
 const io = require("socket.io")(http); // setup sockets on top of ^^
+const onChange = require("on-change");
 
 app.use(express.static("build")); // serve the react frontend
 
@@ -137,11 +138,13 @@ class Game {
 //***************
 
 // variables
-let interval;
 let connections = 0;
 
 // game instance
-let game = new Game();
+const unwatchedGame = new Game();
+const game = onChange(unwatchedGame, () => {
+  emitGame(null, game);
+});
 
 // client connection
 io.on("connection", (socket) => {
