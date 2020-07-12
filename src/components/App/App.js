@@ -22,19 +22,19 @@ function App() {
 
       if (!gameState) return;
 
-      if (gameState.playerOne.name !== "" && gameState.playerTwo.name !== "") {
+      if (gameState.playerCount === 2) {
         switch (socket.id) {
           case gameState.playerOne.socketID:
             setPlayerNum(1);
+            setDisplayReadyBtn(true);
             break;
           case gameState.playerTwo.socketID:
             setPlayerNum(2);
+            setDisplayReadyBtn(true);
             break;
           default:
-            setPlayerNum(0);
             break;
         }
-        setDisplayReadyBtn(true);
       } else {
         setDisplayReadyBtn(false);
       }
@@ -42,12 +42,12 @@ function App() {
     });
   });
 
+  socket.on("you joined the game", () => {
+    socket.emit("refresh clients");
+  });
+
   const handleClick = () => {
     socket.emit("test me");
-  };
-
-  const handleStart = () => {
-    socket.emit("start game");
   };
 
   const handleReset = () => {
@@ -64,11 +64,10 @@ function App() {
       <p>{gameStateString}</p>
       <p>PlayerNum: {playerNum}</p>
       <button onClick={handleClick}>Click</button>
-      <button onClick={handleStart}>Start</button>
       <button onClick={handleReset}>Reset Game</button>
       <JoinGameField socket={socket} />
+      {displayReadyBtn && <ReadyButton socket={socket} playerNum={playerNum} />}
       <Corpse limbs={gameState.limbs} />
-      {displayReadyBtn && <ReadyButton />}
       <WordDisplay wordCharArray={wordCharArray} />
       <AlphaButtons socket={socket} />
     </div>

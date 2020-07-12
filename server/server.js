@@ -3,6 +3,7 @@ require("dotenv").config(); // env vars
 const app = express();
 const http = require("http").createServer(app); // create http server using express
 const io = require("socket.io")(http); // setup sockets on top of ^^
+const onChange = require("on-change");
 
 app.use(express.static("build")); // serve the react frontend
 
@@ -153,20 +154,20 @@ class Game {
 //***************
 
 // variables
-let interval;
 let connections = 0;
 
 // game instance
-let game = new Game();
+const unwatchedGame = new Game();
+const game = onChange(unwatchedGame, () => {
+  emitGame(null, game);
+});
 
 // client connection
 io.on("connection", (socket) => {
   //   console.log(game);
   connections = socket.client.conn.server.clientsCount;
   console.log("a client has connected. count:", connections);
-
-  // interval handles updates
-  interval = setInterval(() => emitGame(socket, game), 100);
+  emitGame(null, game); // someone joined, refresh clients
 
   //
   //#region Listeners
@@ -182,12 +183,6 @@ io.on("connection", (socket) => {
   socket.on("test me", () => {
     console.log("test hit");
     testModifyGame(socket, game);
-  });
-
-  // on 'start game'
-  socket.on("start game", () => {
-    console.log("start game");
-    assignWord(socket, game); // get a random word for the round
   });
 
   // on 'reset game'
@@ -249,6 +244,24 @@ io.on("connection", (socket) => {
         break; // don't do anything
     }
     socket.emit("you joined the game"); // tell the player they joined
+  });
+
+  // on 'ready player'
+  socket.on("ready player", (playerNum) => {
+    console.log("ready player hit. playerNum:", playerNum);
+    game.readyPlayer(playerNum);
+
+    // start the game if both players are ready
+    if (game.readyPlayerOne && game.readyPlayerTwo) {
+      game.running = true;
+      console.log("start game");
+      assignWord(socket, game); // get a random word for the round
+    }
+  });
+
+  // refresh clients
+  socket.on("refresh clients", () => {
+    emitGame(null, game);
   });
 
   //***************
