@@ -150,7 +150,7 @@ io.on("connection", (socket) => {
   console.log("a client has connected. count:", connections);
 
   // interval handles updates
-  interval = setInterval(() => emitGame(socket, game), 15);
+  interval = setInterval(() => emitGame(socket, game), 100);
 
   //
   //#region Listeners
