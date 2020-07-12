@@ -166,7 +166,7 @@ io.on("connection", (socket) => {
   console.log("a client has connected. count:", connections);
 
   // interval handles updates
-  interval = setInterval(() => emitGame(socket, game), 15);
+  interval = setInterval(() => emitGame(socket, game), 100);
 
   //
   //#region Listeners
@@ -297,6 +297,13 @@ const resetGame = (socket, game) => {
 //
 //#region Game Operator
 //***************
+
+/**
+ * check if the guessed char is hit or miss
+ * @param {*} socket
+ * @param {*} game
+ * @param {*} letter
+ */
 
 const hitOrMiss = (socket, game, letter) => {
   if (socket.id === game.playerOne.socketID) {
