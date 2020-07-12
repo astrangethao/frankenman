@@ -35,19 +35,21 @@ class AlphaButtons extends Component {
       console.log("clicked", letter);
     };
     return (
-      <div className="btn-container">
-        {alphabet.map((item, index) => {
-          return (
-            <button
-              className="btn"
-              onClick={() => handleClick({ item })}
-              key={index}
-            >
-              {item}
-            </button>
-          );
-        })}
-      </div>
+      <>
+        <div className="btn-container">
+          {alphabet.map((item, index) => {
+            return (
+              <button
+                className="btn"
+                onClick={() => handleClick({ item })}
+                key={index}
+              >
+                {item}
+              </button>
+            );
+          })}
+        </div>
+      </>
     );
   }
 }
