@@ -26,16 +26,6 @@ function App() {
           gameState.playerOne.name !== "" &&
           gameState.playerTwo.name !== ""
         ) {
-          // switch (socket.id) {
-          //   case game.playerOne.socketID:
-          //     setPlayerNum(1);
-          //     break;
-          //   case game.playerTwo.socketID:
-          //     setPlayerNum(2);
-          //     break;
-          //   default:
-          //     break;
-          // }
           switch (socket.id) {
             case gameState.playerOne.socketID:
               setPlayerNum(1);
