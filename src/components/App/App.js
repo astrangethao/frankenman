@@ -4,7 +4,7 @@ import JoinGameField from "../JoinGameField/JoinGameField.js";
 import WordDisplay from "../WordDisplay/WordDisplay";
 import AlphaButtons from "../AlphaButton/AlphaButtons";
 
-const socket = io("http://localhost:3000/");
+const socket = io("http://localhost:5000/");
 
 function App() {
   const [gameState, setGameState] = useState({});
