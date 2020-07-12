@@ -8,8 +8,8 @@ function WordDisplay(props) {
   return (
     <div className="word-display-container">
       <div className="box-container">
-        {letter.map((char) => (
-          <Box />
+        {letter.map((char, index) => (
+          <Box key={index} />
         ))}
       </div>
     </div>
