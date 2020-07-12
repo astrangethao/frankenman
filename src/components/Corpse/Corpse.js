@@ -18,11 +18,11 @@ class Corpse extends Component {
     const leftLegArr = this.props.limbs.leftLeg;
 
     const randoHead = headArr[random(6)];
-    const randoTorso = torsoArr[random(3)];
-    const randoRightArm = rightArmArr[random(3)];
-    const randoLeftArm = leftArmArr[random(3)];
-    const randoRightLeg = rightLegArr[random(3)];
-    const randoLeftLeg = leftLegArr[random(3)];
+    const randoTorso = torsoArr[random(5)];
+    const randoRightArm = rightArmArr[random(5)];
+    const randoLeftArm = leftArmArr[random(5)];
+    const randoRightLeg = rightLegArr[random(5)];
+    const randoLeftLeg = leftLegArr[random(5)];
 
     // const divBackground = {
     //   backgroundImage: url(`+ ${imgUrl} +`),
@@ -65,10 +65,10 @@ class Corpse extends Component {
             // }}
           ></div>
           <div
-            id="left-leg"
-            // style={{
-            //   backgroundImage: "url(" + randoLeftLeg + ")",
-            // }}
+          // id="left-leg"
+          // style={{
+          //   backgroundImage: "url(" + randoLeftLeg + ")",
+          // }}
           ></div>
         </div>
       </div>
