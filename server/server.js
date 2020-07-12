@@ -21,6 +21,7 @@ class Game {
   constructor() {
     this.running = false; // toggled true when both game.playerCount are ready
     this.gameWinner = false; // toggled true when player reaches desired wins, this triggers a game restart
+    this.gameMaxStrikes = 10; // this maximum number of incorrect guesses a player can make per round
     this.completedRoundCount = 0; // incremented after a round has been won
     this.playerOneVictoryCount = 0;
     this.playerTwoVictoryCount = 0;
@@ -67,6 +68,7 @@ class Game {
   resetGameClass() {
     this.running = false; // toggled true when both game.playerCount are ready
     this.gameWinner = false; // toggled true when player reaches desired wins, this triggers a game restart
+    this.gameMaxStrikes = 10; // this maximum number of incorrect guesses a player can make per round
     this.completedRoundCount = 0; // incremented after a round has been won
     this.playerOneVictoryCount = 0;
     this.playerTwoVictoryCount = 0;
@@ -74,11 +76,11 @@ class Game {
     this.readyPlayerTwo = false;
     this.playerOne = {
       name: "",
-      socketID: 0,
+      socketID: null,
     };
     this.playerTwo = {
       name: "",
-      socketID: 0,
+      socketID: null,
     };
     this.playerCount = 0;
     this.pastRounds = []; // completed rounds get pushed here
