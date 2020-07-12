@@ -11,7 +11,7 @@ const socket = io(
 );
 
 function App() {
-  const [gameState, setGameState] = useState({});
+  const [gameState, setGameState] = useState(false);
   const [wordState, setWordState] = useState(""); // getting word for the round
   const [displayReadyBtn, setDisplayReadyBtn] = useState(false); // show the button to ready up. Once both players have readied, start the game
   const [playerNum, setPlayerNum] = useState(0); // 0 = no, 1 = player1, 2 = player2
@@ -19,58 +19,27 @@ function App() {
   useEffect(() => {
     socket.on("FromAPI", (data) => {
       setGameState(data);
+
+      if (!gameState) return;
+
       setWordState(data.round.word);
 
-      try {
-        if (
-          gameState.playerOne.name !== "" &&
-          gameState.playerTwo.name !== ""
-        ) {
-          switch (socket.id) {
-            case gameState.playerOne.socketID:
-              setPlayerNum(1);
-              break;
-            case gameState.playerTwo.socketID:
-              setPlayerNum(2);
-              break;
-            default:
-              setPlayerNum(0);
-              break;
-          }
-          setDisplayReadyBtn(true);
-        } else {
-          setDisplayReadyBtn(false);
+      if (gameState.playerOne.name !== "" && gameState.playerTwo.name !== "") {
+        switch (socket.id) {
+          case gameState.playerOne.socketID:
+            setPlayerNum(1);
+            break;
+          case gameState.playerTwo.socketID:
+            setPlayerNum(2);
+            break;
+          default:
+            setPlayerNum(0);
+            break;
         }
-      } catch (err) {}
-
-      // // Assign player num
-      // if (!game) {
-      //   // catch no game
-      // } else {
-      //   switch (socket.id) {
-      //     case game.playerOne.socketID:
-      //       setPlayerNum(1); // client is playerOne
-      //       break;
-      //     case game.playerTwo.socketID:
-      //       setPlayerNum(2); // client is playerOne
-      //       break;
-      //     default:
-      //       setPlayerNum(0); // client is not a player
-      //       break;
-      //   }
-      // }
-
-      //   // Once two players have joined, show ready buttons
-      //   if (!game) {
-      //     // catch no game
-      //   } else if (
-      //     game.playerOne.socketID !== null &&
-      //     game.playerTwo.socketID !== null &&
-      //     playerNum // not 0
-      //   ) {
-      //     console.log("players connected");
-      //     setDisplayReadyBtn(true); // toggle the ready buttons on
-      //   }
+        setDisplayReadyBtn(true);
+      } else {
+        setDisplayReadyBtn(false);
+      }
     });
   });
 
