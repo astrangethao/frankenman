@@ -7,7 +7,7 @@ const socket = socketIOClient("http://localhost:5000");
 
 function App() {
   const [gameState, setGameState] = useState({});
-  const [wordState, setWordState] = useState("");
+  const [wordState, setWordState] = useState(""); // getting word for the round
 
   useEffect(() => {
     socket.on("FromAPI", (data) => {
@@ -30,7 +30,7 @@ function App() {
 
   const gameStateString = JSON.stringify(gameState);
 
-  const word = wordState;
+  const word = wordState; //storing word for the round
 
   return (
     <div className="App">

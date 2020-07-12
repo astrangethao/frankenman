@@ -156,7 +156,7 @@ io.on("connection", (socket) => {
   // on 'start game'
   socket.on("start game", () => {
     console.log("start game");
-    assignWord(socket, game);
+    assignWord(socket, game); // get a random word for the round
   });
 
   // on 'reset game'
