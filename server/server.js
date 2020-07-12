@@ -63,38 +63,18 @@ class Game {
 
     this.limbs = {
       head: [
-        "public/images/al2.png",
-        "public/images/h2.png",
-        "public/images/h3.png",
-        "public/images/h4.png",
-        "public/images/h5.png",
-        "public/images/h6.png",
+        "images/h1.png",
+        "images/h2.png",
+        "images/h3.png",
+        "images/h4.png",
+        "images/h5.png",
+        "images/h6.png",
       ],
-      torso: [
-        "public/images/t1.png",
-        "public/images/t2.png",
-        "public/images/t3.png",
-      ],
-      rightArm: [
-        "public/images/ar1.png",
-        "public/images/ar2.png",
-        "public/images/ar3.png",
-      ],
-      leftArm: [
-        "public/images/al1.png",
-        "public/images/al2.png",
-        "public/images/al3.png",
-      ],
-      rightLeg: [
-        "public/images/lr1.png",
-        "public/images/lr2.png",
-        "public/images/lr3.png",
-      ],
-      leftLeg: [
-        "public/images/ll1.png",
-        "public/images/ll2.png",
-        "public/images/ll3.png",
-      ],
+      torso: ["images/t1.png", "images/t2.png", "images/t3.png"],
+      rightArm: ["images/ar1.png", "images/ar2.png", "images/ar3.png"],
+      leftArm: ["images/al1.png", "images/al2.png", "images/al3.png"],
+      rightLeg: ["images/lr1.png", "images/lr2.png", "images/lr3.png"],
+      leftLeg: ["images/ll1.png", "images/ll2.png", "images/ll3.png"],
     };
   }
 
