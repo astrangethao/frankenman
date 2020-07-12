@@ -186,9 +186,11 @@ io.on("connection", (socket) => {
     switch (socket.id) {
       case game.playerOne.socketID:
         game.round.playerOneGuesses.all.push(letter);
+        hitOrMiss(socket, game, letter);
         break;
       case game.playerTwo.socketID:
         game.round.playerTwoGuesses.all.push(letter);
+        hitOrMiss(socket, game, letter);
         break;
       default:
         socket.emit("default player");
@@ -277,6 +279,28 @@ const resetGame = (socket, game) => {
 //
 
 //
+//#region Game Operator
+//***************
+
+const hitOrMiss = (socket, game, letter) => {
+  if (socket.id === game.playerOne.socketID) {
+    let isHit = game.round.wordCharArr.indexOf(letter) !== -1;
+    if (isHit) {
+      game.round.playerOneGuesses.hits.push(letter);
+    } else {
+      game.round.playerOneGuesses.misses.push(letter);
+    }
+  } else if (socket.id === game.playerTwo.socketID) {
+    let isHit = game.round.wordCharArr.indexOf(letter) !== -1;
+    if (isHit) {
+      game.round.playerTwoGuesses.hits.push(letter);
+    } else {
+      game.round.playerTwoGuesses.misses.push(letter);
+    }
+  }
+};
+
+//
 //#region Word Generator
 //***************
 
@@ -306,6 +330,10 @@ const assignWord = (socket, game) => {
 
 //***************
 //#endregion Word Generator
+//
+
+//***************
+//#endregion Game Operator
 //
 
 // listen
