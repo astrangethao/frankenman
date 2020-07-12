@@ -20,18 +20,6 @@ function App() {
   useEffect(() => {
     socket.on("FromAPI", (data) => {
       setGameState(data);
-      setWordCharArrayState(gameState.round.wordCharArr);
-      setHitState(gameState.round.playerOneGuesses.hits);
-      // switch (socket.id) {
-      //   case data.playerOne.socketID:
-      //     setHitState(data.round.playerOneGuesses.hits);
-      //     break;
-      //   case data.playerTwo.socketID:
-      //     setHitState(data.round.playerTwoGuesses.hits);
-      //     break;
-      //   default:
-      //     break;
-      // }
 
       if (!gameState) return;
 
@@ -52,6 +40,16 @@ function App() {
         setDisplayReadyBtn(false);
       }
       setWordCharArrayState(data.round.wordCharArr);
+      switch (playerNum) {
+        case 1:
+          setHitState(gameState.round.playerOneGuesses.hits);
+          break;
+        case 2:
+          setHitState(gameState.round.playerTwoGuesses.hits);
+          break;
+        default:
+          break;
+      }
     });
   });
 
@@ -68,6 +66,8 @@ function App() {
   };
 
   const gameStateString = JSON.stringify(gameState);
+  console.log("hitstate", hitState);
+  console.log("playnum", playerNum);
 
   return (
     <div className="App">
