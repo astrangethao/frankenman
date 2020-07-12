@@ -153,6 +153,12 @@ io.on("connection", (socket) => {
     testModifyGame(socket, game);
   });
 
+  // on 'start game'
+  socket.on("start game", () => {
+    console.log("start game");
+    assignWord(socket, game);
+  });
+
   // on 'reset game'
   socket.on("reset game", () => {
     console.log("reset hit");
@@ -200,6 +206,34 @@ const resetGame = (socket, game) => {
 
 //***************
 //#endregion Sockets
+//
+
+//
+//#region Word Generator
+//***************
+
+/**
+ * set a new word for the round
+ */
+
+const assignWord = (socket, game) => {
+  switch (game.round.roundNum) {
+    case 1:
+      game.round.word = randomWord(5);
+      break;
+    case 2:
+      game.round.word = randomWord(7);
+      break;
+    case 3:
+      game.round.word = randomWord(9);
+      break;
+    default:
+      break;
+  }
+};
+
+//***************
+//#endregion Word Generator
 //
 
 // listen
