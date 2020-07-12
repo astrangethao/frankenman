@@ -1,0 +1,18 @@
+.word-display-container {
+  margin: 20px;
+  padding: 0;
+  border-radius: 25px;
+  border: 2px solid navy;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.box-container {
+  margin: auto;
+  padding: 10px 20px;
+}
+
+.letter-display {
+  display: inline-block;
+}
