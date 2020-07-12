@@ -39,16 +39,20 @@ function App() {
       } else {
         setDisplayReadyBtn(false);
       }
+
       setWordCharArrayState(data.round.wordCharArr);
-      switch (playerNum) {
-        case 1:
-          setHitState(gameState.round.playerOneGuesses.hits);
-          break;
-        case 2:
-          setHitState(gameState.round.playerTwoGuesses.hits);
-          break;
-        default:
-          break;
+
+      if (playerNum) {
+        switch (playerNum) {
+          case 1:
+            setHitState(gameState.round.playerOneGuesses.hits);
+            break;
+          case 2:
+            setHitState(gameState.round.playerTwoGuesses.hits);
+            break;
+          default:
+            break;
+        }
       }
     });
   });

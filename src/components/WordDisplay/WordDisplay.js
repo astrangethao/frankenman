@@ -4,6 +4,7 @@ import Box from "../WordDisplay/Box";
 
 function WordDisplay(props) {
   console.log("props hit", props.hitsArray);
+  console.log("chararr", props.wordCharArray);
   return (
     <div className="word-display-container">
       <div className="box-container">
