@@ -19,15 +19,23 @@ class Game {
    * A game of Frankenman
    */
   constructor() {
-    this.running = false; // toggled true when both players are ready
+    this.running = false; // toggled true when both game.playerCount are ready
     this.gameWinner = false; // toggled true when player reaches desired wins, this triggers a game restart
+    this.gameMaxStrikes = 10; // this maximum number of incorrect guesses a player can make per round
     this.completedRoundCount = 0; // incremented after a round has been won
     this.playerOneVictoryCount = 0;
     this.playerTwoVictoryCount = 0;
     this.readyPlayerOne = false;
     this.readyPlayerTwo = false;
-    this.playerOneName = "";
-    this.playerTwoName = "";
+    this.playerOne = {
+      name: "",
+      socketID: null,
+    };
+    this.playerTwo = {
+      name: "",
+      socketID: null,
+    };
+    this.playerCount = 0;
     this.pastRounds = []; // completed rounds get pushed here
 
     /**
@@ -58,15 +66,23 @@ class Game {
    * Restart the game instance
    */
   resetGameClass() {
-    this.running = false; // toggled true when both players are ready
+    this.running = false; // toggled true when both game.playerCount are ready
     this.gameWinner = false; // toggled true when player reaches desired wins, this triggers a game restart
+    this.gameMaxStrikes = 10; // this maximum number of incorrect guesses a player can make per round
     this.completedRoundCount = 0; // incremented after a round has been won
     this.playerOneVictoryCount = 0;
     this.playerTwoVictoryCount = 0;
     this.readyPlayerOne = false;
     this.readyPlayerTwo = false;
-    this.playerOneName = "";
-    this.playerTwoName = "";
+    this.playerOne = {
+      name: "",
+      socketID: null,
+    };
+    this.playerTwo = {
+      name: "",
+      socketID: null,
+    };
+    this.playerCount = 0;
     this.pastRounds = []; // completed rounds get pushed here
 
     /**
@@ -120,11 +136,9 @@ class Game {
 //#region Sockets
 //***************
 
-// socket connections
-let clientCount = 0;
-
-// interval
+// variables
 let interval;
+let connections = 0;
 
 // game instance
 let game = new Game();
@@ -132,8 +146,9 @@ let game = new Game();
 // client connection
 io.on("connection", (socket) => {
   //   console.log(game);
-  clientCount = io.engine.clientsCount; // update count
-  console.log("user connected. Count:", clientCount);
+  connections = socket.client.conn.server.clientsCount;
+  console.log("a client has connected. count:", connections);
+
   // interval handles updates
   interval = setInterval(() => emitGame(socket, game), 15);
 
@@ -141,10 +156,10 @@ io.on("connection", (socket) => {
   //#region Listeners
   //***************
 
-  // on disconnection
-  socket.on("disconnect", () => {
-    clientCount = io.engine.clientsCount;
-    console.log("user disconnected. Count:", clientCount);
+  // on 'disconnect'
+  socket.on("disconnect", (socket) => {
+    connections = io.engine.clientsCount;
+    console.log("a client has disconnected. count:", connections);
   });
 
   // on 'test emit'
@@ -165,6 +180,59 @@ io.on("connection", (socket) => {
     resetGame(socket, game);
   });
 
+  // on 'alpha button'
+  socket.on("alpha button", (letter) => {
+    console.log("button clicked", letter);
+    switch (socket.id) {
+      case game.playerOne.socketID:
+        game.round.playerOneGuesses.all.push(letter);
+        break;
+      case game.playerTwo.socketID:
+        game.round.playerTwoGuesses.all.push(letter);
+        break;
+      default:
+        socket.emit("default player");
+        break; // don't do anything
+    }
+  });
+
+  // join a game
+  // rejected if too many game.playerCount
+  socket.on("join game", (playerName) => {
+    console.log("join game hit", playerName);
+
+    // check the current player count
+    if (game.playerCount >= 2) {
+      socket.emit("too many players");
+      return;
+    } else if (
+      game.playerOne.socketID === socket.id ||
+      game.playerOne.socketID === socket.id
+    ) {
+      socket.emit("you are already logged in");
+      return;
+    }
+
+    // increment the game.playerCount
+    game.playerCount++;
+    console.log(game.playerCount, "players");
+    switch (game.playerCount) {
+      case 1:
+        game.playerOne.name = playerName;
+        game.playerOne.socketID = socket.id;
+        break;
+
+      case 2:
+        game.playerTwo.name = playerName;
+        game.playerTwo.socketID = socket.id;
+        break;
+
+      default:
+        break; // don't do anything
+    }
+    socket.emit("you joined the game"); // tell the player they joined
+  });
+
   //***************
   //#endregion Listeners
   //
@@ -177,6 +245,7 @@ io.on("connection", (socket) => {
 /**
  * Update all clients.
  * @param {Game} game An instance of Frankenman
+ * @param {int} currentPlayer What player number is the client? 0(not playing) 1 or 2?
  */
 const emitGame = (socket, game) => {
   const response = game;
@@ -197,7 +266,6 @@ const testModifyGame = (socket, game) => {
  */
 const resetGame = (socket, game) => {
   game.resetGameClass();
-  console.log(game);
 };
 
 //***************
@@ -229,6 +297,7 @@ const assignWord = (socket, game) => {
     case 3:
       game.round.word = randomWord(9); // max length 9
       game.round.wordCharArr = game.round.word.split(""); // store char of the word in array
+
       break;
     default:
       break;
