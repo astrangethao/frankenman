@@ -282,6 +282,13 @@ const resetGame = (socket, game) => {
 //#region Game Operator
 //***************
 
+/**
+ * check if the guessed char is hit or miss
+ * @param {*} socket
+ * @param {*} game
+ * @param {*} letter
+ */
+
 const hitOrMiss = (socket, game, letter) => {
   if (socket.id === game.playerOne.socketID) {
     let isHit = game.round.wordCharArr.indexOf(letter) !== -1;
