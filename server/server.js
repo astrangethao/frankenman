@@ -3,6 +3,7 @@ require("dotenv").config(); // env vars
 const app = express();
 const http = require("http").createServer(app); // create http server using express
 const io = require("socket.io")(http); // setup sockets on top of ^^
+const onChange = require("on-change");
 
 app.use(express.static("build")); // serve the react frontend
 
@@ -59,6 +60,22 @@ class Game {
       },
       playerOneCompletionPercent: 0,
       playerTwoCompletionPercent: 0,
+    };
+
+    this.limbs = {
+      head: [
+        "images/h1.png",
+        "images/h2.png",
+        "images/h3.png",
+        "images/h4.png",
+        "images/h5.png",
+        "images/h6.png",
+      ],
+      torso: ["images/t1.png", "images/t2.png", "images/t3.png"],
+      rightArm: ["images/ar1.png", "images/ar2.png", "images/ar3.png"],
+      leftArm: ["images/al1.png", "images/al2.png", "images/al3.png"],
+      rightLeg: ["images/lr1.png", "images/lr2.png", "images/lr3.png"],
+      leftLeg: ["images/ll1.png", "images/ll2.png", "images/ll3.png"],
     };
   }
 
@@ -137,20 +154,20 @@ class Game {
 //***************
 
 // variables
-let interval;
 let connections = 0;
 
 // game instance
-let game = new Game();
+const unwatchedGame = new Game();
+const game = onChange(unwatchedGame, () => {
+  emitGame(null, game);
+});
 
 // client connection
 io.on("connection", (socket) => {
   //   console.log(game);
   connections = socket.client.conn.server.clientsCount;
   console.log("a client has connected. count:", connections);
-
-  // interval handles updates
-  interval = setInterval(() => emitGame(socket, game), 100);
+  emitGame(null, game); // someone joined, refresh clients
 
   //
   //#region Listeners
@@ -166,12 +183,6 @@ io.on("connection", (socket) => {
   socket.on("test me", () => {
     console.log("test hit");
     testModifyGame(socket, game);
-  });
-
-  // on 'start game'
-  socket.on("start game", () => {
-    console.log("start game");
-    assignWord(socket, game); // get a random word for the round
   });
 
   // on 'reset game'
@@ -233,6 +244,24 @@ io.on("connection", (socket) => {
         break; // don't do anything
     }
     socket.emit("you joined the game"); // tell the player they joined
+  });
+
+  // on 'ready player'
+  socket.on("ready player", (playerNum) => {
+    console.log("ready player hit. playerNum:", playerNum);
+    game.readyPlayer(playerNum);
+
+    // start the game if both players are ready
+    if (game.readyPlayerOne && game.readyPlayerTwo) {
+      game.running = true;
+      console.log("start game");
+      assignWord(socket, game); // get a random word for the round
+    }
+  });
+
+  // refresh clients
+  socket.on("refresh clients", () => {
+    emitGame(null, game);
   });
 
   //***************
