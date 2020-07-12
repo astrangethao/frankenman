@@ -32,19 +32,15 @@ const alphabet = [
 
 class AlphaButtons extends Component {
   render() {
-    const handleClick = (letter) => {
-      console.log("clicked", letter);
+    const handleClick = (letter) => () => {
+      this.props.socket.emit("alpha button", letter);
     };
     return (
       <>
         <div className="btn-container">
           {alphabet.map((item, index) => {
             return (
-              <button
-                className="btn"
-                onClick={() => handleClick({ item })}
-                key={index}
-              >
+              <button className="btn" onClick={handleClick(item)} key={index}>
                 {item}
               </button>
             );
