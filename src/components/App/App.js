@@ -16,6 +16,7 @@ function App() {
   const [displayReadyBtn, setDisplayReadyBtn] = useState(false); // show the button to ready up. Once both players have readied, start the game
   const [playerNum, setPlayerNum] = useState(0); // 0 = no, 1 = player1, 2 = player2
   const [wordCharArrayState, setWordCharArrayState] = useState([]); // getting wordCharArray for the round
+  const [hitState, setHitState] = useState([]); // getting hit status
 
   socket.on("FromAPI", (data) => {
     setGameState(data);
@@ -38,7 +39,21 @@ function App() {
     } else {
       setDisplayReadyBtn(false);
     }
+
     setWordCharArrayState(data.round.wordCharArr);
+
+    if (playerNum) {
+      switch (playerNum) {
+        case 1:
+          setHitState(gameState.round.playerOneGuesses.hits);
+          break;
+        case 2:
+          setHitState(gameState.round.playerTwoGuesses.hits);
+          break;
+        default:
+          break;
+      }
+    }
   });
 
   const handleClick = () => {
@@ -50,8 +65,8 @@ function App() {
   };
 
   const gameStateString = JSON.stringify(gameState);
-
-  const wordCharArray = wordCharArrayState; //storing word for the round
+  console.log("hitstate", hitState);
+  console.log("playnum", playerNum);
 
   return (
     <div className="App">
@@ -67,7 +82,7 @@ function App() {
         word={gameState.word}
         hits={gameState.hits}
       />
-      <WordDisplay wordCharArray={wordCharArray} />
+      <WordDisplay hitsArray={hitState} wordCharArray={wordCharArrayState} />
       <AlphaButtons socket={socket} />
       <Footer />
     </div>
