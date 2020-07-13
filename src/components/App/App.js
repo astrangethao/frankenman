@@ -5,6 +5,7 @@ import WordDisplay from "../WordDisplay/WordDisplay";
 import AlphaButtons from "../AlphaButton/AlphaButtons";
 import Corpse from "../Corpse/Corpse";
 import ReadyButton from "../ReadyButton/ReadyButton.js";
+import Footer from "../Footer/Footer";
 
 const socket = io(
   process.env.REACT_APP_SOCKET_SERVER || "http://localhost:5000/"
@@ -68,6 +69,7 @@ function App() {
       />
       <WordDisplay wordCharArray={wordCharArray} />
       <AlphaButtons socket={socket} />
+      <Footer />
     </div>
   );
 }

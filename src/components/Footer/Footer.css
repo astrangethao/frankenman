@@ -1,0 +1,17 @@
+ul {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+.container {
+  display: flex;
+  flex-direction: row;
+  text-align: left;
+  justify-content: center;
+}
+
+.item {
+  display: flex;
+}
