@@ -3,6 +3,7 @@ import "./Footer.css";
 
 class Footer extends Component {
   render() {
+    //footer
     return (
       <footer className="container">
         <div className="item">
